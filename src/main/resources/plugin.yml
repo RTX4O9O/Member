@@ -1,0 +1,14 @@
+name: Member
+version: '${version}'
+main: me.rtx4090.member.Member
+description: Add a /member command to manage whitelist with every members within the server
+author: RTX4090
+api-version: '1.21'
+load: STARTUP
+
+commands:
+  member:
+    description: "Manage whitelist with every members within the server."
+    usage: "/member <invite|kick|cancel|vote> <player>"
+    aliases: []
+    permission-message: ""

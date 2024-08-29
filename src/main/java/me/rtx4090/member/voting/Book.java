@@ -1,0 +1,99 @@
+package me.rtx4090.member.voting;
+
+import me.rtx4090.member.Member;
+import me.rtx4090.member.config.MemberConfig;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+
+public class Book { // 20 words * 15 lines
+    public String token = Member.newToken();
+    public ItemStack bookItem() {
+        // Create a book item
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta meta = (BookMeta) book.getItemMeta();
+
+
+        meta.setTitle("Voting Book");
+        meta.setAuthor("");
+
+        // Create clickable text components
+//        TextComponent rejectButton = new TextComponent("§cNOT AGREE");
+//        rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
+//
+//        TextComponent acceptButton = new TextComponent("§aAGREE");
+//        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
+
+/*        TextComponent rejectedButton = new TextComponent("§c§nNOT AGREE");
+        rejectedButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, ""));
+
+        TextComponent acceptedButton = new TextComponent("§a§nAGREE");
+        acceptedButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, ""));*/
+
+        // Build the invite page
+        ComponentBuilder invitePage = new ComponentBuilder();
+        MemberConfig.invite.forEach((key, value) -> {
+            OfflinePlayer player = Bukkit.getOfflinePlayer(key);
+
+            TextComponent acceptButton = new TextComponent("§aAGREE");
+            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
+
+            TextComponent rejectButton = new TextComponent("§cNOT AGREE");
+            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
+
+            invitePage.append("§l" + player.getName() + "§r\n");
+            invitePage.append(acceptButton);
+            invitePage.append("     ");
+            invitePage.append(rejectButton);
+            invitePage.append("\n");
+        });
+
+        // Build the kick page
+        ComponentBuilder kickPage = new ComponentBuilder();
+        MemberConfig.kick.forEach((key, value) -> {
+            OfflinePlayer player = Bukkit.getOfflinePlayer(key);
+
+            TextComponent acceptButton = new TextComponent("§aAGREE");
+            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
+
+            TextComponent rejectButton = new TextComponent("§cNOT AGREE");
+            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
+
+            invitePage.append("§l" + player.getName() + "§r\n");
+            invitePage.append(acceptButton);
+            invitePage.append("     ");
+            invitePage.append(rejectButton);
+            invitePage.append("\n");
+        });
+
+        // Convert the page to a string format suitable for BookMeta
+        meta.spigot().addPage(invitePage.create());
+        meta.spigot().addPage(kickPage.create());
+
+        book.setItemMeta(meta);
+
+        /*if (meta != null) {
+            // Set the title and author of the book
+            meta.setTitle("My Custom Book");
+            meta.setAuthor("");
+
+            // Add pages to the book
+            meta.addPage(
+                    "Welcome to this custom book!\n\nThis is the first page.",
+                    "This is the second page.\nYou can put anything here!",
+                    "Third page with more content!"
+            );
+
+            // Apply the meta to the book
+            book.setItemMeta(meta);
+        }
+*/
+        return book;
+    }
+
+}

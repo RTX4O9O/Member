@@ -1,0 +1,5 @@
+# available variables: accept_amount, reject_amount, whitelisted_member_amount, total_votes
+conditions:
+    - "accept_amount > whitelisted_member_amount / 4"
+    - "reject_amount < 5"
+    - "accept_amount > total_votes * 0.66"
