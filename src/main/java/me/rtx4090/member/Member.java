@@ -17,7 +17,7 @@ public final class Member extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getCommand("scale").setExecutor(new MemberCommand());
+        getCommand("member").setExecutor(new MemberCommand());
         Instance = this;
         MemberConfig.load();
         endOutdated();
