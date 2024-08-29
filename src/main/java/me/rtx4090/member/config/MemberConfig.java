@@ -4,7 +4,6 @@ import me.rtx4090.member.player.PlayerProfile;
 import me.rtx4090.member.utils.ConfigUtil;
 
 import java.nio.file.Path;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

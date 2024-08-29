@@ -2,15 +2,14 @@ package me.rtx4090.member.config;
 
 import me.rtx4090.member.utils.ConfigUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 
 public class RatioConfig {
     public static List<String> conditions = new ArrayList<>();

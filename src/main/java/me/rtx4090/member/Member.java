@@ -3,7 +3,6 @@ package me.rtx4090.member;
 import me.rtx4090.member.commands.MemberCommand;
 import me.rtx4090.member.config.MemberConfig;
 import me.rtx4090.member.config.RatioConfig;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Calendar;

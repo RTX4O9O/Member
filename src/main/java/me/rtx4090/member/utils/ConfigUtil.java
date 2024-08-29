@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.rtx4090.member.Member;
 import org.bukkit.configuration.file.YamlConfiguration;
-
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.BufferedWriter;
