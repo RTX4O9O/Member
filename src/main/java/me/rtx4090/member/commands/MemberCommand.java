@@ -2,6 +2,7 @@ package me.rtx4090.member.commands;
 
 import me.rtx4090.member.Member;
 import me.rtx4090.member.config.MemberConfig;
+import me.rtx4090.member.config.RatioConfig;
 import me.rtx4090.member.player.PlayerProfile;
 import me.rtx4090.member.utils.MojangAPI;
 import me.rtx4090.member.voting.Gui;
@@ -17,6 +18,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.bukkit.Bukkit.getServer;
 
 public class MemberCommand implements CommandExecutor {
     private Map<UUID, String> playerTokens = new HashMap<>();
@@ -196,7 +199,30 @@ public class MemberCommand implements CommandExecutor {
                     gui.open(player);
                     return true;
                 }
+            case "endvote":
+                if (strings.length != 2) {
+                    commandSender.sendMessage("§cPlease use /member endvote <player>");
+                } else {
+                    UUID targetUUID = MojangAPI.getUUID(strings[1]);
+                    UUID senderUUID = MojangAPI.getUUID(commandSender.getName());
 
+                    if (targetUUID == null) {
+                        commandSender.sendMessage("§cPlayer not found.");
+                    } else if (!commandSender.isOp() && !isInvitor(targetUUID, senderUUID)) {
+                        commandSender.sendMessage("§cYou have to be suggester or admin to perform this action.");
+                    } else if (MemberConfig.invite.containsKey(targetUUID)) {
+                        if (RatioConfig.evaluate(targetUUID, true)) getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                        MemberConfig.invite.remove(targetUUID);
+                        MemberConfig.save();
+                    } else if (MemberConfig.kick.containsKey(targetUUID)) {
+                        if (RatioConfig.evaluate(targetUUID, false)) getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                        MemberConfig.kick.remove(targetUUID);
+                        MemberConfig.save();
+                    } else {
+                        commandSender.sendMessage("§cPlayer is not in the suggestion list.");
+                    }
+                }
+                return true;
             default: // Invalid command -> help message
                 commandSender.sendMessage("§r---------------------------");
                 commandSender.sendMessage("§r§bMember v1.0 §rby §bRTX4090");
