@@ -31,7 +31,19 @@ public class MemberCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
         UUID playerUUID = player.getUniqueId();
-
+        if (strings.length == 0) {
+            commandSender.sendMessage("§r---------------------------");
+            commandSender.sendMessage("§r§bMember v1.0 §rby §bRTX4090");
+            commandSender.sendMessage("§r§7Manage whitelist with every members within the server.");
+            commandSender.sendMessage("");
+            commandSender.sendMessage("§r/member §3- §rshow help and introduction");
+            commandSender.sendMessage("§r/member invite §3- §radd a member to member adding suggestion");
+            commandSender.sendMessage("§r/member kick §3- §radd a member to member kicking suggestion");
+            commandSender.sendMessage("§r/member cancel §3- §rcancel a member suggestion (only works for suggester and admin)");
+            commandSender.sendMessage("§r/member vote §3- §ropen the voting gui");
+            commandSender.sendMessage("§r---------------------------");
+            return true;
+        }
         switch (strings[0]) {
             case "invite": // add a member suggestion
                 if (strings.length < 2) {
