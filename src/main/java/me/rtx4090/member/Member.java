@@ -20,6 +20,7 @@ public final class Member extends JavaPlugin {
         getCommand("member").setExecutor(new MemberCommand());
         Instance = this;
         MemberConfig.load();
+        RatioConfig.load();
         endOutdated();
     }
 
