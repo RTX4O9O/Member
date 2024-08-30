@@ -1,5 +1,6 @@
 package me.rtx4090.member.commands;
 
+import me.rtx4090.member.Member;
 import me.rtx4090.member.config.MemberConfig;
 import me.rtx4090.member.config.RatioConfig;
 import me.rtx4090.member.player.PlayerProfile;
@@ -224,11 +225,22 @@ public class MemberCommand implements CommandExecutor {
                     } else if (!commandSender.isOp() && !isInvitor(targetUUID, senderUUID)) {
                         commandSender.sendMessage("§c[Member] You have to be suggester or admin to perform this action.");
                     } else if (MemberConfig.invite.containsKey(targetUUID)) {
-                        if (RatioConfig.evaluate(targetUUID, true)) getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                        if (RatioConfig.evaluate(targetUUID, true)) {
+                            getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                            Member.sendMessageToAllPlayers("§a[Member] " + strings[1] + " has pass the vote and become one of us!");
+                        } else {
+                            Member.sendMessageToAllPlayers("§a[Member] " + strings[1] + " didn't pass the vote!");
+                        }
+
                         MemberConfig.invite.remove(targetUUID);
                         MemberConfig.save();
                     } else if (MemberConfig.kick.containsKey(targetUUID)) {
-                        if (RatioConfig.evaluate(targetUUID, false)) getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                        if (RatioConfig.evaluate(targetUUID, false)) {
+                            getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
+                            Member.sendMessageToAllPlayers("§a[Member] " + strings[1] + " has pass the vote and leave us!");
+                        } else {
+                            Member.sendMessageToAllPlayers("§a[Member] " + strings[1] + " didn't pass the vote!");
+                        }
                         MemberConfig.kick.remove(targetUUID);
                         MemberConfig.save();
                     } else {

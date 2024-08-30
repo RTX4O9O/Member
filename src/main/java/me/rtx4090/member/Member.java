@@ -3,6 +3,8 @@ package me.rtx4090.member;
 import me.rtx4090.member.commands.MemberCommand;
 import me.rtx4090.member.config.MemberConfig;
 import me.rtx4090.member.config.RatioConfig;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Calendar;
@@ -82,6 +84,12 @@ public final class Member extends JavaPlugin {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         return date.before(calendar.getTime());
+    }
+
+    public static void sendMessageToAllPlayers(String message) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(message);
+        }
     }
 
 }
