@@ -23,7 +23,11 @@ public class MemberConfig {
         ConfigUtil.readStatic(configPath, MemberConfig.class);
     }
     public static void save() {
-        ConfigUtil.writeStatic(Path.of("member.yml"), new MemberConfig());
+        Path configPath = ConfigUtil.ofPath("member.yml");
+        Map<String, Object> data = new HashMap<>();
+        data.put("invite", invite);
+        data.put("kick", kick);
+        ConfigUtil.writeStatic(configPath, data);
     }
 
 }

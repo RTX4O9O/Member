@@ -46,7 +46,7 @@ public class Book { // 20 words * 15 lines
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§l" + MojangAPI.getName(key) + "§r\n");
+            invitePage.append("§a● " + "§r§l" + MojangAPI.getName(key) + "§r\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
@@ -64,7 +64,7 @@ public class Book { // 20 words * 15 lines
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§l" + MojangAPI.getName(key) + "§r\n");
+            invitePage.append("§c● " +"§r§l" + MojangAPI.getName(key) + "§r\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
@@ -77,22 +77,6 @@ public class Book { // 20 words * 15 lines
 
         book.setItemMeta(meta);
 
-        /*if (meta != null) {
-            // Set the title and author of the book
-            meta.setTitle("My Custom Book");
-            meta.setAuthor("");
-
-            // Add pages to the book
-            meta.addPage(
-                    "Welcome to this custom book!\n\nThis is the first page.",
-                    "This is the second page.\nYou can put anything here!",
-                    "Third page with more content!"
-            );
-
-            // Apply the meta to the book
-            book.setItemMeta(meta);
-        }
-*/
         return book;
     }
 
