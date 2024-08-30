@@ -6,7 +6,6 @@ import org.nfunk.jep.JEP;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;

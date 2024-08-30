@@ -1,6 +1,5 @@
 package me.rtx4090.member.utils;
 
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -10,10 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.UUID;
 
-
 public class MojangAPI {
-
-
     public static UUID getUUID(String playerName) {
         UUID uuid = null;
         try {

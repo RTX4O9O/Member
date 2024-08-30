@@ -159,52 +159,6 @@ public class MemberCommand implements CommandExecutor {
 
                     MemberConfig.save();
                     return true;
-
-                    /*if (MemberConfig.invite.containsKey(targetPlayer.getUniqueId())) {
-                        switch (strings[2]) {
-                            case "accept": // accept the suggestion
-                                MemberConfig.invite.get(targetPlayer.getUniqueId()).accept.add(((Player) commandSender).getUniqueId());
-                                if (MemberConfig.invite.get(targetPlayer.getUniqueId()).reject.contains(((Player) commandSender).getUniqueId())) {
-                                    MemberConfig.invite.get(targetPlayer.getUniqueId()).reject.remove(((Player) commandSender).getUniqueId());
-                                    commandSender.sendMessage("You voted reject before. Your vote has been changed to accept.");
-                                }
-                                MemberConfig.save();
-                                return true;
-                            case "reject": // reject the suggestion
-                                MemberConfig.invite.get(targetPlayer.getUniqueId()).reject.add(((Player) commandSender).getUniqueId());
-                                if (MemberConfig.invite.get(targetPlayer.getUniqueId()).accept.contains(((Player) commandSender).getUniqueId())) {
-                                    MemberConfig.invite.get(targetPlayer.getUniqueId()).accept.remove(((Player) commandSender).getUniqueId());
-                                    commandSender.sendMessage("You voted accept before. Your vote has been changed to reject.");
-                                }
-                                return true;
-                            default:
-                                commandSender.sendMessage("§cError! Error Code: hftko");
-                                return true;
-                        }
-                    } else {
-                        switch (strings[2]) {
-                            case "accept": // accept the suggestion
-                                MemberConfig.kick.get(targetPlayer.getUniqueId()).accept.add(((Player) commandSender).getUniqueId());
-                                if (MemberConfig.kick.get(targetPlayer.getUniqueId()).reject.contains(((Player) commandSender).getUniqueId())) {
-                                    MemberConfig.kick.get(targetPlayer.getUniqueId()).reject.remove(((Player) commandSender).getUniqueId());
-                                    commandSender.sendMessage("You voted reject before. Your vote has been changed to accept.");
-                                }
-                                MemberConfig.save();
-                                return true;
-                            case "reject": // reject the suggestion
-                                MemberConfig.kick.get(targetPlayer.getUniqueId()).reject.add(((Player) commandSender).getUniqueId());
-                                if (MemberConfig.kick.get(targetPlayer.getUniqueId()).accept.contains(((Player) commandSender).getUniqueId())) {
-                                    MemberConfig.kick.get(targetPlayer.getUniqueId()).accept.remove(((Player) commandSender).getUniqueId());
-                                    commandSender.sendMessage("You voted accept before. Your vote has been changed to reject.");
-                                }
-                                return true;
-                            default:
-                                commandSender.sendMessage("§cError! Error Code: hftko");
-                                return true;
-                        }
-                    }*/
-
-
                 } else {
                     // Open book
                     Gui gui = new Gui();

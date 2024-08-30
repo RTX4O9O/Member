@@ -13,8 +13,6 @@ public class MemberConfig {
     public static Map<UUID, PlayerProfile> invite = new HashMap<>();
     public static Map<UUID, PlayerProfile> kick = new HashMap<>();
 
-
-
     public static void load() {
         Path configPath = ConfigUtil.ofPath("member.yml");
         if (!Files.exists(configPath)) {
@@ -22,6 +20,7 @@ public class MemberConfig {
         }
         ConfigUtil.readStatic(configPath, MemberConfig.class);
     }
+
     public static void save() {
         Path configPath = ConfigUtil.ofPath("member.yml");
         Map<String, Object> data = new HashMap<>();

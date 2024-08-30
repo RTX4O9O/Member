@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -65,22 +64,6 @@ public final class Member extends JavaPlugin {
         }, oneHourInTicks, oneHourInTicks);
     }
 
-
-/*    private void schedulePeriodicCheck() {
-        // Convert 1 hour to ticks (20 ticks = 1 second)
-        long oneHourInTicks = 20L * 60L * 60L;
-
-        // Schedule the task to run every hour
-        getServer().getScheduler().runTaskTimer(this, this::removeOutdated, oneHourInTicks, oneHourInTicks);
-    }
-
-    private void removeOutdated() {
-        // Remove outdated entries from the invite and kick lists
-        MemberConfig.invite.entrySet().removeIf(entry -> isMoreThanAWeekAgo(entry.getValue().date));
-        MemberConfig.kick.entrySet().removeIf(entry -> isMoreThanAWeekAgo(entry.getValue().date));
-        MemberConfig.save();
-    }*/
-
     public static boolean isDatePassed(Date date) {
         Date currentDate = new Date();
         return date.before(currentDate);
@@ -91,6 +74,7 @@ public final class Member extends JavaPlugin {
             player.sendMessage(message);
         }
     }
+
     public static String formatDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
         return formatter.format(date);
