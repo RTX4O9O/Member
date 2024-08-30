@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -49,13 +50,13 @@ public final class Member extends JavaPlugin {
         getServer().getScheduler().runTaskTimer(this, () -> {
             // Remove outdated entries from the invite and kick lists
             MemberConfig.invite.forEach((key, value) -> {
-                if (isMoreThanAWeekAgo(value.date)) {
+                if (isDatePassed(value.dueDate)) {
                     if (RatioConfig.evaluate(key, true)) getServer().getOfflinePlayer(key).setWhitelisted(true);
                     MemberConfig.invite.remove(key);
                 }
             });
             MemberConfig.kick.forEach((key, value) -> {
-                if (isMoreThanAWeekAgo(value.date)) {
+                if (isDatePassed(value.dueDate)) {
                     if (RatioConfig.evaluate(key, false)) getServer().getOfflinePlayer(key).setWhitelisted(false);
                     MemberConfig.kick.remove(key);
                 }
@@ -80,10 +81,9 @@ public final class Member extends JavaPlugin {
         MemberConfig.save();
     }*/
 
-    public static boolean isMoreThanAWeekAgo(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.WEEK_OF_YEAR, -1);
-        return date.before(calendar.getTime());
+    public static boolean isDatePassed(Date date) {
+        Date currentDate = new Date();
+        return date.before(currentDate);
     }
 
     public static void sendMessageToAllPlayers(String message) {
@@ -91,6 +91,9 @@ public final class Member extends JavaPlugin {
             player.sendMessage(message);
         }
     }
-
+    public static String formatDate(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy");
+        return formatter.format(date);
+    }
 
 }

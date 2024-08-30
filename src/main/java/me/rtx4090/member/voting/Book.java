@@ -46,10 +46,13 @@ public class Book { // 20 words * 15 lines
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§a● " + "§r§l" + MojangAPI.getName(key) + "§r\n");
+            invitePage.append("§c● " +"§r§l" + MojangAPI.getName(key));
+            invitePage.append("\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
+            invitePage.append("\n");
+            invitePage.append("Due to: " + Member.formatDate(value.dueDate));
             invitePage.append("\n");
         });
 
@@ -64,10 +67,13 @@ public class Book { // 20 words * 15 lines
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§c● " +"§r§l" + MojangAPI.getName(key) + "§r\n");
+            invitePage.append("§c● " +"§r§l" + MojangAPI.getName(key));
+            invitePage.append("\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
+            invitePage.append("\n");
+            invitePage.append("Due to: " + Member.formatDate(value.dueDate));
             invitePage.append("\n");
         });
 
