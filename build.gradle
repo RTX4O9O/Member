@@ -1,6 +1,8 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
+
 
 group = 'me.rtx4090'
 version = '1.0.0'
@@ -19,6 +21,9 @@ repositories {
 
 dependencies {
     implementation "org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT"
+    implementation group: 'jep', name: 'jep', version: '2.24'
+
+
 }
 
 def targetJavaVersion = 21
@@ -47,3 +52,9 @@ processResources {
         expand props
     }
 }
+
+shadowJar {
+    archiveClassifier.set('all')
+    //relocate 'org.nfunk.jep', 'me.rtx4090.shaded.org.nfunk.jep'
+}
+

@@ -3,6 +3,7 @@ package me.rtx4090.member.config;
 import me.rtx4090.member.player.PlayerProfile;
 import me.rtx4090.member.utils.ConfigUtil;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,11 +16,14 @@ public class MemberConfig {
 
 
     public static void load() {
-        ConfigUtil.readStatic(Path.of("member.yml"), MemberConfig.class);
+        Path configPath = ConfigUtil.ofPath("member.yml");
+        if (!Files.exists(configPath)) {
+            ConfigUtil.copyDefault("member.yml");
+        }
+        ConfigUtil.readStatic(configPath, MemberConfig.class);
     }
-
     public static void save() {
-        ConfigUtil.readStatic(Path.of("member.yml"), MemberConfig.class);
+        ConfigUtil.writeStatic(Path.of("member.yml"), new MemberConfig());
     }
 
 }

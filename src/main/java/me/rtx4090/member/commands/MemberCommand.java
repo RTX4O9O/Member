@@ -25,7 +25,7 @@ public class MemberCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage("§cOnly players can use this command.");
+            commandSender.sendMessage("§c[Member] Only players can use this command.");
             return true;
         }
 
@@ -47,35 +47,36 @@ public class MemberCommand implements CommandExecutor {
         switch (strings[0]) {
             case "invite": // add a member suggestion
                 if (strings.length < 2) {
-                    commandSender.sendMessage("§cPlease use /member invite <player>");
+                    commandSender.sendMessage("§c[Member] Please use /member invite <player>");
                 } else if (MojangAPI.getUUID(strings[1]) == null) {
-                    commandSender.sendMessage("§cPlayer not found.");
+                    commandSender.sendMessage("§c[Member] Player not found.");
                 } else if (MemberConfig.invite.containsKey(MojangAPI.getUUID(strings[1]))) {
-                    commandSender.sendMessage("§cPlayer is already in the invite list.");
+                    commandSender.sendMessage("§c[Member] Player is already in the invite list.");
                 } else {
                     if (MemberConfig.invite.size() >= 5) {
-                        commandSender.sendMessage("§cYou can only suggest up to 5 players at a time.");
+                        commandSender.sendMessage("§c[Member] You can only suggest up to 5 players at a time.");
                         return true;
                     }
-                    OfflinePlayer invitePlayer = Bukkit.getOfflinePlayer(strings[1]);
+
                     PlayerProfile invitePlayerProfile = new PlayerProfile();
                     invitePlayerProfile.invitor = MojangAPI.getUUID(commandSender.getName());
-                    MemberConfig.invite.put(invitePlayer.getUniqueId(), invitePlayerProfile);
+                    MemberConfig.invite.put(MojangAPI.getUUID(strings[1]), invitePlayerProfile);
                     MemberConfig.save();
+                    commandSender.sendMessage("§a[Member] Successfully added player " + strings[1] + " to the invite list.");
                 }
 
                 return true;
 
             case "kick": // add a kick member suggestion
                 if (strings.length < 2) {
-                    commandSender.sendMessage("§cPlease use /member kick <player>");
+                    commandSender.sendMessage("§c[Member] Please use /member kick <player>");
                 } else if (MojangAPI.getUUID(strings[1]) == null) {
-                    commandSender.sendMessage("§cPlayer not found.");
+                    commandSender.sendMessage("§c[Member] Player not found.");
                 } else if (MemberConfig.kick.containsKey(MojangAPI.getUUID(strings[1]))) {
-                    commandSender.sendMessage("§cPlayer is already in the kick list.");
+                    commandSender.sendMessage("§c[Member] Player is already in the kick list.");
                 } else {
                     if (MemberConfig.kick.size() >= 5) {
-                        commandSender.sendMessage("§cYou can only suggest up to 5 players at a time.");
+                        commandSender.sendMessage("§c[Member] You can only suggest up to 5 players at a time.");
                         return true;
                     }
                     OfflinePlayer kickPlayer = Bukkit.getOfflinePlayer(strings[1]);
@@ -83,29 +84,32 @@ public class MemberCommand implements CommandExecutor {
                     kickPlayerProfile.invitor = MojangAPI.getUUID(commandSender.getName());
                     MemberConfig.kick.put(kickPlayer.getUniqueId(), kickPlayerProfile);
                     MemberConfig.save();
+                    commandSender.sendMessage("§a[Member] Successfully added player " + strings[1] + " to the kick list.");
                 }
 
                 return true;
 
             case "cancel": // cancel a member suggestion (can only execute by the member who suggested and admin)
                 if (strings.length < 2) {
-                    commandSender.sendMessage("§cPlease use /member cancel <player>");
+                    commandSender.sendMessage("§c[Member] Please use /member cancel <player>");
                 } else {
                     UUID targetUUID = MojangAPI.getUUID(strings[1]);
                     UUID senderUUID = MojangAPI.getUUID(commandSender.getName());
 
                     if (targetUUID == null) {
-                        commandSender.sendMessage("§cPlayer not found.");
+                        commandSender.sendMessage("§c[Member] Player not found.");
                     } else if (!commandSender.isOp() && !isInvitor(targetUUID, senderUUID)) {
-                        commandSender.sendMessage("§cYou have to be suggester or admin to perform this action.");
+                        commandSender.sendMessage("§c[Member] You have to be suggester or admin to perform this action.");
                     } else if (MemberConfig.invite.containsKey(targetUUID)) {
                         MemberConfig.invite.remove(targetUUID);
                         MemberConfig.save();
+                        commandSender.sendMessage("§a[Member] Successfully removed player " + strings[1] + " from the invite list.");
                     } else if (MemberConfig.kick.containsKey(targetUUID)) {
                         MemberConfig.kick.remove(targetUUID);
                         MemberConfig.save();
+                        commandSender.sendMessage("§a[Member] Successfully removed player " + strings[1] + " from the invite list.");
                     } else {
-                        commandSender.sendMessage("§cPlayer is not in the suggestion list.");
+                        commandSender.sendMessage("§c[Member] Player is not in the suggestion list.");
                     }
                 }
                 return true;
@@ -115,21 +119,21 @@ public class MemberCommand implements CommandExecutor {
                     // book executing
                     String providedToken = strings[1];
                     if (!playerTokens.containsKey(playerUUID) || !playerTokens.get(playerUUID).equals(providedToken)) {
-                        commandSender.sendMessage("§cError. Please use the book to execute the command.");
+                        commandSender.sendMessage("§c[Member] Error. Please use the book to execute the command.");
                         return true;
                     }
 
-                    OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(strings[3]);
-                    if (targetPlayer == null) {
-                        commandSender.sendMessage("§cPlayer not found.");
+                    //OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(strings[3]);
+                    if (MojangAPI.getName(UUID.fromString(strings[3])) == null) {
+                        commandSender.sendMessage("§c[Member] Player not found.");
                         return true;
-                    } else if (!MemberConfig.invite.containsKey(targetPlayer.getUniqueId()) && !MemberConfig.kick.containsKey(targetPlayer.getUniqueId())) {
-                        commandSender.sendMessage("§cPlayer is not in the suggestion list.");
+                    } else if (!MemberConfig.invite.containsKey(UUID.fromString(strings[3])) && !MemberConfig.kick.containsKey(UUID.fromString(strings[3]))) {
+                        commandSender.sendMessage("§c[Member] Player is not in the suggestion list.");
                         return true;
                     }
 
-                    Map<UUID, PlayerProfile> targetMap = MemberConfig.invite.containsKey(targetPlayer.getUniqueId()) ? MemberConfig.invite : MemberConfig.kick;
-                    PlayerProfile profile = targetMap.get(targetPlayer.getUniqueId());
+                    Map<UUID, PlayerProfile> targetMap = MemberConfig.invite.containsKey(UUID.fromString(strings[3])) ? MemberConfig.invite : MemberConfig.kick;
+                    PlayerProfile profile = targetMap.get(UUID.fromString(strings[3]));
                     UUID senderUUID = ((Player) commandSender).getUniqueId();
 
                     switch (strings[2]) {
@@ -137,18 +141,18 @@ public class MemberCommand implements CommandExecutor {
                             profile.accept.add(senderUUID);
                             if (profile.reject.contains(senderUUID)) {
                                 profile.reject.remove(senderUUID);
-                                commandSender.sendMessage("You voted not agree before. Your vote has been changed to agree.");
+                                commandSender.sendMessage("[Member] You voted not agree before. Your vote has been changed to agree.");
                             }
                             break;
                         case "reject":
                             profile.reject.add(senderUUID);
                             if (profile.accept.contains(senderUUID)) {
                                 profile.accept.remove(senderUUID);
-                                commandSender.sendMessage("You voted agree before. Your vote has been changed to not agree.");
+                                commandSender.sendMessage("[Member] You voted agree before. Your vote has been changed to not agree.");
                             }
                             break;
                         default:
-                            commandSender.sendMessage("§cError! Error Code: gfhhe");
+                            commandSender.sendMessage("§c[Member] Error! Error Code: gfhhe");
                             return true;
                     }
 
@@ -210,15 +214,15 @@ public class MemberCommand implements CommandExecutor {
                 }
             case "endvote":
                 if (strings.length != 2) {
-                    commandSender.sendMessage("§cPlease use /member endvote <player>");
+                    commandSender.sendMessage("§c[Member] Please use /member endvote <player>");
                 } else {
                     UUID targetUUID = MojangAPI.getUUID(strings[1]);
                     UUID senderUUID = MojangAPI.getUUID(commandSender.getName());
 
                     if (targetUUID == null) {
-                        commandSender.sendMessage("§cPlayer not found.");
+                        commandSender.sendMessage("§c[Member] Player not found.");
                     } else if (!commandSender.isOp() && !isInvitor(targetUUID, senderUUID)) {
-                        commandSender.sendMessage("§cYou have to be suggester or admin to perform this action.");
+                        commandSender.sendMessage("§c[Member] You have to be suggester or admin to perform this action.");
                     } else if (MemberConfig.invite.containsKey(targetUUID)) {
                         if (RatioConfig.evaluate(targetUUID, true)) getServer().getOfflinePlayer(targetUUID).setWhitelisted(true);
                         MemberConfig.invite.remove(targetUUID);
@@ -228,7 +232,7 @@ public class MemberCommand implements CommandExecutor {
                         MemberConfig.kick.remove(targetUUID);
                         MemberConfig.save();
                     } else {
-                        commandSender.sendMessage("§cPlayer is not in the suggestion list.");
+                        commandSender.sendMessage("§c[Member] Player is not in the suggestion list.");
                     }
                 }
                 return true;

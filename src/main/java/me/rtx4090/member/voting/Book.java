@@ -2,6 +2,7 @@ package me.rtx4090.member.voting;
 
 import me.rtx4090.member.Member;
 import me.rtx4090.member.config.MemberConfig;
+import me.rtx4090.member.utils.MojangAPI;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -38,15 +39,14 @@ public class Book { // 20 words * 15 lines
         // Build the invite page
         ComponentBuilder invitePage = new ComponentBuilder();
         MemberConfig.invite.forEach((key, value) -> {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(key);
 
             TextComponent acceptButton = new TextComponent("§aAGREE");
-            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
+            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + key));
 
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
-            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
+            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§l" + player.getName() + "§r\n");
+            invitePage.append("§l" + MojangAPI.getName(key) + "§r\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
@@ -56,15 +56,15 @@ public class Book { // 20 words * 15 lines
         // Build the kick page
         ComponentBuilder kickPage = new ComponentBuilder();
         MemberConfig.kick.forEach((key, value) -> {
-            OfflinePlayer player = Bukkit.getOfflinePlayer(key);
+            //OfflinePlayer player = Bukkit.getOfflinePlayer(key);
 
             TextComponent acceptButton = new TextComponent("§aAGREE");
-            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
+            acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + key));
 
             TextComponent rejectButton = new TextComponent("§cNOT AGREE");
-            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
+            rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
-            invitePage.append("§l" + player.getName() + "§r\n");
+            invitePage.append("§l" + MojangAPI.getName(key) + "§r\n");
             invitePage.append(acceptButton);
             invitePage.append("     ");
             invitePage.append(rejectButton);
