@@ -1,5 +1,5 @@
 name: Member
-version: 1.0.0
+version: 1.0.1
 main: me.rtx4090.member.Member
 description: Add a /member command to manage whitelist with every members within the server
 author: RTX4090
