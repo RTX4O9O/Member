@@ -10,39 +10,42 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import java.util.UUID;
+
 public class Book { // 20 words * 15 lines
+    public UUID bookOwner;
     public String token = Member.newToken();
+    Book(UUID playerUUID) {
+        bookOwner = playerUUID;
+    }
     public ItemStack bookItem() {
         // Create a book item
         ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) book.getItemMeta();
 
-
         meta.setTitle("Voting Book");
         meta.setAuthor("");
-
-        // Create clickable text components
-//        TextComponent rejectButton = new TextComponent("§cNOT AGREE");
-//        rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + player));
-//
-//        TextComponent acceptButton = new TextComponent("§aAGREE");
-//        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + player));
-
-/*        TextComponent rejectedButton = new TextComponent("§c§nNOT AGREE");
-        rejectedButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, ""));
-
-        TextComponent acceptedButton = new TextComponent("§a§nAGREE");
-        acceptedButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, ""));*/
 
         // Build the invite page
         ComponentBuilder invitePage = new ComponentBuilder();
         MemberConfig.invite.forEach((key, value) -> {
 
-            TextComponent acceptButton = new TextComponent("§aAGREE");
+            TextComponent acceptButton;
+            if (value.accept.contains(bookOwner)) {
+                acceptButton = new TextComponent("§a§lAGREE");
+            } else {
+                acceptButton = new TextComponent("§aAGREE");
+            }
             acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + key));
 
-            TextComponent rejectButton = new TextComponent("§cNOT AGREE");
+            TextComponent rejectButton;
+            if (value.reject.contains(bookOwner)) {
+                rejectButton = new TextComponent("§a§lNOT AGREE");
+            } else {
+                rejectButton = new TextComponent("§aNOT AGREE");
+            }
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
+
 
             invitePage.append("§a● " +"§r§l" + MojangAPI.getName(key));
             invitePage.append("\n");
@@ -57,12 +60,21 @@ public class Book { // 20 words * 15 lines
         // Build the kick page
         ComponentBuilder kickPage = new ComponentBuilder();
         MemberConfig.kick.forEach((key, value) -> {
-            //OfflinePlayer player = Bukkit.getOfflinePlayer(key);
 
-            TextComponent acceptButton = new TextComponent("§aAGREE");
+            TextComponent acceptButton;
+            if (value.accept.contains(bookOwner)) {
+                acceptButton = new TextComponent("§a§lAGREE");
+            } else {
+                acceptButton = new TextComponent("§aAGREE");
+            }
             acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " accept" + " " + key));
 
-            TextComponent rejectButton = new TextComponent("§cNOT AGREE");
+            TextComponent rejectButton;
+            if (value.reject.contains(bookOwner)) {
+                rejectButton = new TextComponent("§a§lNOT AGREE");
+            } else {
+                rejectButton = new TextComponent("§aNOT AGREE");
+            }
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
             invitePage.append("§c● " +"§r§l" + MojangAPI.getName(key));

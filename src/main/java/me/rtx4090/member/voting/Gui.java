@@ -9,7 +9,7 @@ public class Gui {
     }
     public void newBook(Player player) {
         // Gen a new book
-        book = new Book();
+        book = new Book(player.getUniqueId());
         token = book.token;
 
     }
