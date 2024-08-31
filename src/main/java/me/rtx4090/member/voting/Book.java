@@ -40,9 +40,9 @@ public class Book { // 20 words * 15 lines
 
             TextComponent rejectButton;
             if (value.reject.contains(bookOwner)) {
-                rejectButton = new TextComponent("§a§lNOT AGREE");
+                rejectButton = new TextComponent("§c§lNOT AGREE");
             } else {
-                rejectButton = new TextComponent("§aNOT AGREE");
+                rejectButton = new TextComponent("§cNOT AGREE");
             }
             rejectButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/member vote " + token + " reject" + " " + key));
 
